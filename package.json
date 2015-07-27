@@ -13,7 +13,6 @@
     "test": "test"
   },
   "dependencies": {
-    "chai": "^2.3.0"
   },
   "repository": {
     "type": "git",
