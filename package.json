@@ -1,7 +1,7 @@
 {
   "name": "tflow",
   "description": "Async flow control similar to async.waterflow but with own advantages.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "tflow.js",
   "scripts": {
     "test": "mocha ./test --require ./test/chai.js --reporter spec"
@@ -12,8 +12,7 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dogada/tflow.git"
