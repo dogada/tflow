@@ -8,5 +8,26 @@
   },
   "devDependencies": {
     "chai": "~2.3.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "chai": "^2.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dogada/tflow.git"
+  },
+  "keywords": [
+    "async",
+    "flow",
+    "coect"
+  ],
+  "author": "Dmytro Dogadailo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dogada/tflow/issues"
+  },
+  "homepage": "https://github.com/dogada/tflow#readme"
 }
