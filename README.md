@@ -30,21 +30,21 @@ function makeGuid(data, done) {
       if (data.addr && (data.host || data.user)) return this.fail('guid.make: addr and user&host are mutually exclusive.')
       if (!data.addr && !data.host) return this.fail('guid.make: addr or host are required.')
       if (!data.path) return this.fail('guid.make: path is required.')
-      this.next();
+      this.next()
     },
     function() {
       if (data.addr) guid = data.addr
       else if (data.user) guid = data.user + '@' + data.host
       else guid = data.host
 
-      guid += '/' + data.path;
+      guid += '/' + data.path
       //ensure we can parse just made guid
-      parse(guid, this);
+      parse(guid, this)
     },
     function(parsed) {
-      this.done(guid);
+      this.done(guid)
     },
-  ], done);
+  ], done)
 }
         
 ```
