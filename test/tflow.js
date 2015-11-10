@@ -121,7 +121,7 @@ describe('tflow', function () {
     });
   });
 
-  it('this.fail(err) completes task flow with error, same as this(err)', function() {
+  it('this.fail(err) completes task flow with error, same as this(err)', function(done) {
     tflow([
       function() {
         this.fail('Failed');
@@ -131,9 +131,28 @@ describe('tflow', function () {
         expect(false).to.equal(true);
       },
     ], function(err, arg) {
-      expectArgs(arguments, ['Failed']);
+      expect(err.status).equals(undefined)
+      expect(err).property('message', 'Failed')
+      done()
     });
   });
+
+  it('this.fail(code, err) completes task flow with error with status code', function(done) {
+    tflow([
+      function() {
+        this.fail(403, 'Access forbidden');
+      },
+      function() {
+        // should not be executed
+        expect(false).to.equal(true);
+      },
+    ], function(err, arg) {
+      expect(err).property('status', 403)
+      expect(err).property('message', 'Access forbidden')
+      done()
+    });
+  });
+
 
   it('this.done(arg) completes task flow and sends result to main callback', function(done) {
     tflow([
@@ -161,13 +180,13 @@ describe('tflow', function () {
     });
   });
 
-  it('this.result(arg1, arg2, ...) should create callback that will receive arg1 and arg2 always', function(done) {
+  it('this.send(arg1, arg2, ...) should create callback that will receive arg1 and arg2 always', function(done) {
     tflow([
       function() {
         this.next('First');
       },
       function(arg) {
-        echo('Second', this.result(arg))
+        echo('Second', this.send(arg))
       },
     ], function(err, arg) {
       expectArgs(arguments, [null, 'First']);
@@ -175,10 +194,10 @@ describe('tflow', function () {
     });
   });
 
-  it('this.prepend(1, 2) should prepend 1, 2 to result of parent callback', function(done) {
+  it('this.join(1, 2) should prepend 1, 2 to result of parent callback', function(done) {
     tflow([
       function() {
-        echo('First', this.prepend(1, 2));
+        echo('First', this.join(1, 2));
       },
       function(one) {
         expectArgs(arguments, [1, 2, 'First']);
@@ -190,19 +209,5 @@ describe('tflow', function () {
     });
   });
 
-  it('this.append(1, 2) should append 1, 2 to result of parent callback', function(done) {
-    tflow([
-      function() {
-        echo('First', this.append(1, 2));
-      },
-      function(one) {
-        expectArgs(arguments, ['First', 1, 2]);
-        this.next(one)
-      },
-    ], function() {
-      expectArgs(arguments, [null, 'First']);
-      done();
-    });
-  });
 
 });

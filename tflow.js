@@ -84,32 +84,29 @@ function tflow(tasks, callback) {
   };
 
   // complete task flow with an error
-  taskCallback.fail = function(err) {
+  taskCallback.fail = function(status, err) {
+    if (!err) {
+      err = status
+      status = undefined
+    }
     var error = (typeof err === 'string') ? new Error(err) : err;
+    if (status) error.status = status
     complete([error]);
   };
 
-  // return callback that will send predefined arguments
-  taskCallback.result = function() {
+  // return callback that will send predefined arguments to next callback
+  taskCallback.send = function() {
     var args = slice(arguments)
     return function(err) {
       taskCallback.apply(taskCallback, [err].concat(args));
     }
   };
 
-  // return callback that will preppend some predefined arguments 
-  taskCallback.prepend = function() {
+  // return callback that will preppend some predefined arguments to the result 
+  taskCallback.join = function() {
     var args = slice(arguments)
     return function(err) {
       taskCallback.apply(taskCallback, [err].concat(args).concat(slice(arguments, 1)));
-    }
-  };
-
-  // return callback that will apppend some predefined arguments 
-  taskCallback.append = function() {
-    var args = slice(arguments)
-    return function() {
-      taskCallback.apply(taskCallback, slice(arguments).concat(args));
     }
   };
 
