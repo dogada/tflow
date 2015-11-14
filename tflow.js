@@ -79,10 +79,13 @@ function tflow(tasks, callback) {
   };
 
   // complete task flow and send result to main callback 
-  taskCallback.done = function() {
+  taskCallback.complete = function() {
     complete([null].concat(slice(arguments)));
   };
 
+  //backward compatible
+  taskCallback.done = taskCallback.complete
+  
   // complete task flow with an error
   taskCallback.fail = function(status, err) {
     if (!err) {

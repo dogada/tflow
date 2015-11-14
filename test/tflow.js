@@ -154,10 +154,10 @@ describe('tflow', function () {
   });
 
 
-  it('this.done(arg) completes task flow and sends result to main callback', function(done) {
+  it('this.complete(arg) completes task flow and sends result to main callback', function(done) {
     tflow([
       function() {
-        this.done('OK');
+        this.complete('OK');
       },
       function() {
         // should not be executed
@@ -201,7 +201,7 @@ describe('tflow', function () {
       },
       function(one) {
         expectArgs(arguments, [1, 2, 'First']);
-        this.done(one)
+        this.complete(one)
       },
     ], function() {
       expectArgs(arguments, [null, 1]);
