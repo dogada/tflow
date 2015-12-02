@@ -4,7 +4,7 @@
   "version": "0.3.1",
   "main": "tflow.js",
   "scripts": {
-    "test": "mocha ./test --require ./test/chai.js --reporter spec"
+    "test": "mocha"
   },
   "devDependencies": {
     "chai": "~2.3.0"
