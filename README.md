@@ -1,4 +1,4 @@
-# tflow - t(his)flow or t(ask)flow. 
+# tflow - t(ask)flow. 
 
 Runs an array of functions in series, each passing their results to the next
 in the array. However, if any of the functions pass an error to the callback,
@@ -49,4 +49,32 @@ function makeGuid(data, done) {
         
 ```
 
+TFlow can be used with ES6 arrow functions too. Such functions use lexical
+`this` and don't allow to change it in `apply` or `call`, so we need to save
+reference to the flow and use it instead `this`.
 
+Same technique can be used with normal javascript functions as well if you prefer
+to reference flow using local variable instead of `this`. 
+
+Example:
+
+
+```js
+
+var flow = tflow([
+  () => flow.next('one'),
+  (arg) => {
+    expect(arg).to.equal('one');
+    flow.next('first', 'second', 'third');
+  },
+  (a, b, c) => {
+    expect([a, b, c]).to.deep.equal(['first', 'second', 'third']);
+    flow.complete('done');
+  }
+], (err, arg) => {
+  expect(err).to.equal(null);
+  expect(arg).to.equal('done');
+});
+
+
+```

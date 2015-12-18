@@ -118,6 +118,7 @@ function tflow(tasks, callback) {
   taskCallback.data = {};
   // start the chain of tasks
   taskCallback(null);
+  return taskCallback
 }
 
 module.exports = tflow;

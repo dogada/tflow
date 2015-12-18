@@ -209,5 +209,40 @@ describe('tflow', function () {
     });
   });
 
+  it('should return the flow instance (can be used instead of `this`)', function() {
+    var flow = tflow([
+      function() {
+        expectArgs(arguments, []);
+        flow(null, 'one');
+      },
+      function(arg) {
+        expectArgs(arguments, ['one']);
+        flow.next('first', 'second', 'third');
+      },
+      function(first, second) {
+        expectArgs(arguments, ['first', 'second', 'third']);
+        flow.complete('done');
+      }
+    ], function(err, arg) {
+      expectArgs(arguments, [null, 'done']);
+    });
+  });
+
+  it('can be used with ES6 arrow functions (that use lexical `this` and don\'t allow to change it)', function() {
+    var flow = tflow([
+      () => flow.next('one'),
+      (arg) => {
+        expect(arg).to.equal('one');
+        flow.next('first', 'second', 'third');
+      },
+      (a, b, c) => {
+        expect([a, b, c]).to.deep.equal(['first', 'second', 'third']);
+        flow.complete('done');
+      }
+    ], (err, arg) => {
+      expect(err).to.equal(null);
+      expect(arg).to.equal('done');
+    });
+  });
 
 });
