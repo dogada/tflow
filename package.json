@@ -1,10 +1,11 @@
 {
   "name": "tflow",
   "description": "Async flow control similar to async.waterflow but with own advantages.",
-  "version": "0.3.1",
+  "version": "0.4.1",
   "main": "tflow.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build": "mocha"
   },
   "devDependencies": {
     "chai": "~2.3.0"
