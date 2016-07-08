@@ -1,4 +1,4 @@
-# tflow - t(ask)flow
+# tflow — t(ask)flow
 
 Runs an array of functions in series, each passing their results to the next
 in the array. However, if any of the functions pass an error to the callback,
